@@ -9,12 +9,14 @@ export const getChatLogsContainer = () => {
         list = {}
         setItemInLocalStorage(CHAT_LOG_KEY, list)
     }
+    console.log('xxx list:', list)
     return list
 }
 
 export const getChatLogs = (id: string) => {
     const logs = getChatLogsContainer()
-    return logs[id] || {}
+    console.log('xx1')
+    return logs[id] || []
 }
 
 // 新增
