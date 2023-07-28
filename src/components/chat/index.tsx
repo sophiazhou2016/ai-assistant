@@ -1,14 +1,16 @@
 import { ChatLogsType } from '@/types'
 import { getCompletion } from '@/utils/getCompletion'
-import { Button, Textarea } from '@mantine/core'
-import { useEffect, useState } from 'react'
+import { ActionIcon, Textarea } from '@mantine/core'
+import { useEffect, useState, KeyboardEvent } from 'react'
 import clsx from "clsx";
-import { getChatLogs, updateChatLogs } from '@/utils/chatStorage';
+import { getChatLogs, updateChatLogs, clearChatLogs } from '@/utils/chatStorage';
+import { IconSend, IconEraser } from "@tabler/icons-react";
 
 const LOCAL_KEY = "ai_demo";
 
 export const Chat = () => { 
     const [ prompt, setPrompt ] = useState('')
+    const [ loading, setLoading ] = useState(false)
 
     const [ completion, setCompletion ] = useState<string>('')
     const [ chatList, setChatList ] = useState<ChatLogsType>([])
@@ -24,6 +26,7 @@ export const Chat = () => {
         updateChatLogs(LOCAL_KEY, logs)
     }
     const getAIResp = async () => {
+        setLoading(true)
         const list = [
             ...chatList,
             {
@@ -35,6 +38,7 @@ export const Chat = () => {
         const resp = await getCompletion({
             prompt: prompt
         })
+        setPrompt('')
         // setCompletion(resp.content)
         setChatLogs([
             ...list,
@@ -43,6 +47,18 @@ export const Chat = () => {
                 content: resp.content
             }
         ])
+        setLoading(false)
+    }
+    const onClear = () => {
+        clearChatLogs(LOCAL_KEY)
+        setChatList([])
+    }
+
+    const onKeyDown = (evt: KeyboardEvent<HTMLTextAreaElement>) => {
+        if (evt.keyCode === 13 && !evt.shiftKey) {
+            evt.preventDefault()
+            getAIResp()
+        }
     }
     return (
         <div className = 'h-screen flex flex-col items-center' >
@@ -78,15 +94,28 @@ export const Chat = () => {
                 ))}
             </div>
             <div className='flex items-center w-3/5'>
+                <ActionIcon
+                    className="mr-2"
+                    disabled={loading}
+                    onClick={() => onClear()}
+                    >
+                    <IconEraser></IconEraser>
+                </ActionIcon>
                 <Textarea
                     className='w-full'
                     placeholder='enter your prompt'
                     value={prompt}
+                    disabled={loading}
+                    onKeyDown={(evt) => onKeyDown(evt)}
                     onChange={(evt) => setPrompt(evt.target.value)}
                 ></Textarea>
-                <Button
+                <ActionIcon
+                    className="ml-2"
+                    loading={loading}
                     onClick={() => getAIResp()}
-                    >Send</Button>
+                >
+                    <IconSend></IconSend>
+                </ActionIcon>
             </div>
         </div>
     )
