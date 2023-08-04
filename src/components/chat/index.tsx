@@ -8,7 +8,7 @@ import { IconSend, IconEraser } from "@tabler/icons-react";
 
 const LOCAL_KEY = "ai_demo";
 
-export const Chat = () => { 
+export const Chat = () => {
     const [ prompt, setPrompt ] = useState('')
     const [ loading, setLoading ] = useState(false)
 
@@ -36,6 +36,7 @@ export const Chat = () => {
         ]
         setChatLogs(list)
         const resp = await getCompletion({
+            history: chatList.slice(-4),
             prompt: prompt
         })
         setPrompt('')

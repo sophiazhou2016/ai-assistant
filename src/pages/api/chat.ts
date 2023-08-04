@@ -9,6 +9,7 @@ export default async function handler(
     const { prompt, history = [], options = {} } = JSON.parse(await req.body)
     const data = {
         model: 'gpt-3.5-turbo',
+        stream: true,
         messages: [
             {
                 role: 'system',
