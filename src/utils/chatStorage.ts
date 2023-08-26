@@ -1,6 +1,6 @@
 // 存储chatLogs
 import { getItemFromLocalStorage, setItemInLocalStorage } from './storage'
-import { ChatLogsStorageType, ChatLogsType } from '@/types'
+import { ChatLogsStorageType, MessageList } from '@/types'
 
 const CHAT_LOG_KEY = 'ai_chatLogs'
 export const getChatLogsContainer = () => {
@@ -20,7 +20,7 @@ export const getChatLogs = (id: string) => {
 }
 
 // 新增
-export const updateChatLogs = (id: string, log: ChatLogsType) => {
+export const updateChatLogs = (id: string, log: MessageList) => {
     const logs = getChatLogsContainer()
     logs[id] = log
     setItemInLocalStorage(CHAT_LOG_KEY, logs)

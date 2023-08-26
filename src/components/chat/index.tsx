@@ -1,4 +1,4 @@
-import { ChatLogsType } from '@/types'
+import { MessageList } from '@/types'
 import { getCompletion } from '@/utils/getCompletion'
 import { ActionIcon, Textarea } from '@mantine/core'
 import { useEffect, useState, KeyboardEvent } from 'react'
@@ -13,7 +13,7 @@ export const Chat = () => {
     const [ loading, setLoading ] = useState(false)
 
     const [ completion, setCompletion ] = useState<string>('')
-    const [ chatList, setChatList ] = useState<ChatLogsType>([])
+    const [ chatList, setChatList ] = useState<MessageList>([])
 
     // 副作用hook,设置缓存
     useEffect(() => {
@@ -21,7 +21,7 @@ export const Chat = () => {
         setChatList(logs)
     }, [])
 
-    const setChatLogs = (logs: ChatLogsType) => {
+    const setChatLogs = (logs: MessageList) => {
         setChatList(logs)
         updateChatLogs(LOCAL_KEY, logs)
     }

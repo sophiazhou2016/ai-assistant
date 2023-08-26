@@ -15,7 +15,8 @@
     "@mantine/notifications": "^6.0.17",
     "@tabler/icons-react": "^2.26.0",
     "axios": "^1.4.0",
-    "clsx": "^2.0.0"
+    "clsx": "^2.0.0",
+    "eventsource-parser": "^1.0.0"
   },
   "devDependencies": {
     "@types/node": "20.4.2",
